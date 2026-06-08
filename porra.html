@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
@@ -34,4 +34,57 @@
 
   <script src="index.js"></script>
 </body>
+</html> -->
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hacer mi porra</title>
+    <link rel="stylesheet" href="index.css" />
+  </head>
+  <body>
+    <main>
+      <h1>Hacer mi porra</h1>
+
+      <form
+        action="https://docs.google.com/forms/d/e/1FAIpQLScypm9jb8kEmKPH3u0JiMttKeoT9NNYdGOcA7AA0vN8Ww4oKQ/formResponse"
+        method="POST"
+        target="hidden_iframe"
+        id="porra-form"
+      >
+        <div>
+          <label for="nombre">Nombre</label>
+          <input type="text" id="nombre" name="entry.1617887899" required />
+        </div>
+
+        <div>
+          <label for="campeon">Campeón</label>
+          <input type="text" id="campeon" name="entry.1682060297" required />
+        </div>
+
+        <div>
+          <label for="subcampeon">Subcampeón</label>
+          <input type="text" id="subcampeon" name="entry.1493353453" required />
+        </div>
+
+        <button type="submit">Guardar porra</button>
+      </form>
+
+      <iframe name="hidden_iframe" style="display: none"></iframe>
+
+      <p id="mensaje"></p>
+    </main>
+
+    <script>
+      const form = document.getElementById("porra-form");
+      const mensaje = document.getElementById("mensaje");
+
+      form.addEventListener("submit", () => {
+        mensaje.textContent = "Porra enviada correctamente.";
+        form.reset();
+      });
+    </script>
+  </body>
 </html>
