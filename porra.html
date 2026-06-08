@@ -1,41 +1,3 @@
-<!-- <!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hacer mi porra</title>
-  <link rel="stylesheet" href="index.css">
-</head>
-<body>
-  <main>
-    <h1>Hacer mi porra</h1>
-
-    <form id="porra-form">
-      <div>
-        <label for="nombre">Nombre</label>
-        <input type="text" id="nombre" name="nombre" required>
-      </div>
-
-      <div>
-        <label for="campeon">Campeon</label>
-        <input type="text" id="campeon" name="campeon" required>
-      </div>
-
-      <div>
-        <label for="subcampeon">Subcampeon</label>
-        <input type="text" id="subcampeon" name="subcampeon" required>
-      </div>
-
-      <button type="submit">Guardar porra</button>
-    </form>
-
-    <p id="mensaje"></p>
-  </main>
-
-  <script src="index.js"></script>
-</body>
-</html> -->
-
 <!doctype html>
 <html lang="es">
   <head>
@@ -44,15 +6,16 @@
     <title>Hacer mi porra</title>
     <link rel="stylesheet" href="index.css" />
   </head>
+
   <body>
     <main>
       <h1>Hacer mi porra</h1>
 
       <form
+        id="porra-form"
         action="https://docs.google.com/forms/d/e/1FAIpQLScypm9jb8kEmKPH3u0JiMttKeoT9NNYdGOcA7AA0vN8Ww4oKQ/formResponse"
         method="POST"
         target="hidden_iframe"
-        id="porra-form"
       >
         <div>
           <label for="nombre">Nombre</label>
@@ -82,8 +45,10 @@
       const mensaje = document.getElementById("mensaje");
 
       form.addEventListener("submit", () => {
-        mensaje.textContent = "Porra enviada correctamente.";
-        form.reset();
+        setTimeout(() => {
+          mensaje.textContent = "Porra enviada correctamente.";
+          form.reset();
+        }, 500);
       });
     </script>
   </body>
