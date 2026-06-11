@@ -1,0 +1,145 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  font-family:
+    Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: #10212f;
+  background: #ffffff;
+}
+
+main {
+  width: min(92vw, 720px);
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 32px 16px;
+  display: grid;
+  place-items: center;
+}
+
+.hero {
+  width: 100%;
+  text-align: center;
+  padding: 56px 24px;
+  border: 1px solid #dbe3ea;
+  border-radius: 24px;
+  color: #10212f;
+  background: #ffffff;
+}
+
+.eyebrow {
+  margin: 0 0 14px;
+  font-size: 0.9rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #0b7a53;
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(3rem, 10vw, 6.5rem);
+  line-height: 0.95;
+  text-transform: uppercase;
+}
+
+.subtitle {
+  max-width: 430px;
+  margin: 20px auto 32px;
+  font-size: 1.12rem;
+  color: #526170;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 52px;
+  margin-top: 32px;
+  padding: 0 28px;
+  border: 0;
+  border-radius: 999px;
+  color: #ffffff;
+  background: #0b7a53;
+  font: inherit;
+  font-weight: 800;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    transform 160ms ease,
+    box-shadow 160ms ease,
+    background 160ms ease;
+}
+
+.button:hover {
+  transform: translateY(-2px);
+  background: #096744;
+  box-shadow: 0 12px 24px rgba(11, 122, 83, 0.22);
+}
+
+.home-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  width: min(100%, 430px);
+  margin: 26px auto 0;
+}
+
+.action-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 56px;
+  padding: 10px 14px;
+  border: 1px solid #dbe3ea;
+  border-radius: 8px;
+  color: #10212f;
+  font-weight: 800;
+  text-align: left;
+  text-decoration: none;
+  transition:
+    border-color 160ms ease,
+    transform 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.action-card:hover {
+  transform: translateY(-2px);
+  border-color: #0b7a53;
+  box-shadow: 0 10px 24px rgba(11, 122, 83, 0.12);
+}
+
+.action-icon {
+  display: inline-grid;
+  flex: 0 0 auto;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  border-radius: 50%;
+  color: #0b7a53;
+  background: #e9f5ef;
+}
+
+.action-icon svg {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
+}
+
+@media (max-width: 520px) {
+  .hero {
+    padding: 44px 18px;
+    border-radius: 18px;
+  }
+
+  .subtitle {
+    font-size: 1rem;
+  }
+
+  .home-actions {
+    grid-template-columns: 1fr;
+  }
+}
