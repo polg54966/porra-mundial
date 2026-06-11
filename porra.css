@@ -56,13 +56,242 @@ form {
   font-size: 1rem;
 }
 
-input[type="text"] {
+input[type="text"],
+input[type="number"],
+input[type="date"],
+select {
   width: min(100%, 320px);
   min-height: 38px;
   padding: 10px 12px;
   border: 1px solid #c8d3df;
   border-radius: 8px;
   font: inherit;
+}
+
+.calendar-tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.calendar-summary {
+  margin-bottom: 12px;
+  color: #526170;
+  font-weight: 800;
+}
+
+.calendar-list {
+  display: grid;
+  gap: 18px;
+}
+
+.calendar-day {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.calendar-day h2 {
+  grid-column: 1 / -1;
+  margin: 0;
+  font-size: 1.15rem;
+  text-transform: uppercase;
+}
+
+.match-card {
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+  border: 1px solid #dbe3ea;
+  border-radius: 8px;
+}
+
+.match-meta,
+.match-teams {
+  display: grid;
+  align-items: center;
+  gap: 10px;
+}
+
+.match-meta {
+  grid-template-columns: 1fr auto;
+  color: #526170;
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
+.match-teams {
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  font-size: 1rem;
+  font-weight: 800;
+}
+
+.match-team {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.match-team-away {
+  justify-content: flex-end;
+  text-align: right;
+}
+
+.match-team span {
+  min-width: 0;
+}
+
+.match-flag {
+  flex: 0 0 auto;
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+.match-status,
+.match-score {
+  min-width: 86px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  text-align: center;
+}
+
+.match-status {
+  color: #526170;
+  background: #eef2f6;
+  font-size: 0.82rem;
+}
+
+.match-score {
+  color: #ffffff;
+  background: #0b7a53;
+}
+
+#porras-listado {
+  display: grid;
+  gap: 10px;
+}
+
+.porra-card {
+  border: 1px solid #dbe3ea;
+  border-radius: 8px;
+  background: #ffffff;
+  overflow: hidden;
+}
+
+.porra-card[open] {
+  border-color: #0b7a53;
+}
+
+.porra-summary {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto 28px;
+  align-items: center;
+  gap: 14px;
+  min-height: 64px;
+  padding: 12px 14px;
+  cursor: pointer;
+  list-style: none;
+}
+
+.porra-summary::-webkit-details-marker {
+  display: none;
+}
+
+.porra-user {
+  min-width: 0;
+  overflow: hidden;
+  font-weight: 800;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.podium-flags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.podium-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 36px;
+  padding: 5px 8px;
+  border: 1px solid #dbe3ea;
+  border-radius: 999px;
+  color: #526170;
+  font-size: 0.85rem;
+  font-weight: 800;
+}
+
+.podium-chip img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+.porra-arrow {
+  display: inline-grid;
+  width: 28px;
+  height: 28px;
+  place-items: center;
+  border-radius: 50%;
+  color: #0b7a53;
+  background: #e9f5ef;
+  font-size: 1.2rem;
+  font-weight: 800;
+  transition: transform 160ms ease;
+}
+
+.porra-card[open] .porra-arrow {
+  transform: rotate(180deg);
+}
+
+.porra-details {
+  display: grid;
+  gap: 18px;
+  padding: 0 14px 16px;
+}
+
+.porra-details h2 {
+  margin: 0 0 10px;
+  font-size: 1rem;
+  text-transform: uppercase;
+}
+
+.prediction-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.prediction-group,
+.final-prediction p {
+  margin: 0;
+  padding: 10px;
+  border: 1px solid #eef2f6;
+  border-radius: 8px;
+  background: #f8fafc;
+}
+
+.prediction-group {
+  display: grid;
+  gap: 4px;
+}
+
+.prediction-group span,
+.final-prediction {
+  color: #526170;
+}
+
+.final-prediction {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
 }
 
 .groups-grid {
@@ -177,6 +406,25 @@ button:hover {
   .final-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+
+  .calendar-day {
+    grid-template-columns: 1fr;
+  }
+
+  .match-teams {
+    grid-template-columns: 1fr;
+  }
+
+  .match-team,
+  .match-team-away {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .prediction-grid,
+  .final-prediction {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 @media (max-width: 520px) {
@@ -187,5 +435,19 @@ button:hover {
 
   .team-option {
     grid-template-columns: 16px 24px 1fr;
+  }
+
+  .porra-summary {
+    grid-template-columns: 1fr auto;
+  }
+
+  .podium-flags {
+    grid-column: 1 / -1;
+    justify-content: flex-start;
+  }
+
+  .prediction-grid,
+  .final-prediction {
+    grid-template-columns: 1fr;
   }
 }

@@ -1,0 +1,922 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calendario de partidos</title>
+    <link rel="stylesheet" href="porra.css" />
+  </head>
+
+  <body>
+    <main class="porra-page">
+      <header class="page-header">
+        <a href="index.html">Volver</a>
+        <h1>Calendario</h1>
+      </header>
+
+      <section class="calendar-tools" aria-label="Filtros del calendario">
+        <div class="field">
+          <label for="group-filter">Fase o grupo</label>
+          <select id="group-filter">
+            <option value="">Todas las fases</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="team-filter">Buscar equipo</label>
+          <input id="team-filter" type="text" placeholder="Espa&ntilde;a" />
+        </div>
+      </section>
+
+      <div class="calendar-summary" id="calendar-summary"></div>
+      <div class="calendar-list" id="calendar-list"></div>
+    </main>
+
+    <script>
+      const matches = [
+        {
+          date: "Jue, 11/6",
+          group: "Grupo A",
+          time: "21:00",
+          home: "Mexico",
+          away: "Sudafrica",
+          // homeGoals: 0,
+          // awayGoals: 0
+        },
+        {
+          date: "Vie, 12/6",
+          group: "Grupo A",
+          time: "4:00",
+          home: "Corea del Sur",
+          away: "Chequia",
+        },
+        {
+          date: "Vie, 12/6",
+          group: "Grupo B",
+          time: "21:00",
+          home: "Canada",
+          away: "Bosnia y Herzegovina",
+        },
+        {
+          date: "Sab, 13/6",
+          group: "Grupo D",
+          time: "3:00",
+          home: "Estados Unidos",
+          away: "Paraguay",
+        },
+        {
+          date: "Sab, 13/6",
+          group: "Grupo B",
+          time: "21:00",
+          home: "Catar",
+          away: "Suiza",
+        },
+        {
+          date: "Dom, 14/6",
+          group: "Grupo C",
+          time: "0:00",
+          home: "Brasil",
+          away: "Marruecos",
+        },
+        {
+          date: "Dom, 14/6",
+          group: "Grupo C",
+          time: "3:00",
+          home: "Haiti",
+          away: "Escocia",
+        },
+        {
+          date: "Dom, 14/6",
+          group: "Grupo D",
+          time: "6:00",
+          home: "Australia",
+          away: "Turquia",
+        },
+        {
+          date: "Dom, 14/6",
+          group: "Grupo E",
+          time: "19:00",
+          home: "Alemania",
+          away: "Curazao",
+        },
+        {
+          date: "Dom, 14/6",
+          group: "Grupo F",
+          time: "22:00",
+          home: "Paises Bajos",
+          away: "Japon",
+        },
+        {
+          date: "Lun, 15/6",
+          group: "Grupo E",
+          time: "1:00",
+          home: "Costa de Marfil",
+          away: "Ecuador",
+        },
+        {
+          date: "Lun, 15/6",
+          group: "Grupo F",
+          time: "4:00",
+          home: "Suecia",
+          away: "Tunez",
+        },
+        {
+          date: "Lun, 15/6",
+          group: "Grupo H",
+          time: "18:00",
+          home: "Espana",
+          away: "Cabo Verde",
+        },
+        {
+          date: "Lun, 15/6",
+          group: "Grupo G",
+          time: "21:00",
+          home: "Belgica",
+          away: "Egipto",
+        },
+        {
+          date: "Mar, 16/6",
+          group: "Grupo H",
+          time: "0:00",
+          home: "Arabia Saudita",
+          away: "Uruguay",
+        },
+        {
+          date: "Mar, 16/6",
+          group: "Grupo G",
+          time: "3:00",
+          home: "Iran",
+          away: "Nueva Zelanda",
+        },
+        {
+          date: "Mar, 16/6",
+          group: "Grupo I",
+          time: "21:00",
+          home: "Francia",
+          away: "Senegal",
+        },
+        {
+          date: "Mie, 17/6",
+          group: "Grupo I",
+          time: "0:00",
+          home: "Irak",
+          away: "Noruega",
+        },
+        {
+          date: "Mie, 17/6",
+          group: "Grupo J",
+          time: "3:00",
+          home: "Argentina",
+          away: "Argelia",
+        },
+        {
+          date: "Mie, 17/6",
+          group: "Grupo J",
+          time: "6:00",
+          home: "Austria",
+          away: "Jordania",
+        },
+        {
+          date: "Mie, 17/6",
+          group: "Grupo K",
+          time: "19:00",
+          home: "Portugal",
+          away: "RD Congo",
+        },
+        {
+          date: "Mie, 17/6",
+          group: "Grupo L",
+          time: "22:00",
+          home: "Inglaterra",
+          away: "Croacia",
+        },
+        {
+          date: "Jue, 18/6",
+          group: "Grupo L",
+          time: "1:00",
+          home: "Ghana",
+          away: "Panama",
+        },
+        {
+          date: "Jue, 18/6",
+          group: "Grupo K",
+          time: "4:00",
+          home: "Uzbekistan",
+          away: "Colombia",
+        },
+        {
+          date: "Jue, 18/6",
+          group: "Grupo A",
+          time: "18:00",
+          home: "Chequia",
+          away: "Sudafrica",
+        },
+        {
+          date: "Jue, 18/6",
+          group: "Grupo B",
+          time: "21:00",
+          home: "Suiza",
+          away: "Bosnia y Herzegovina",
+        },
+        {
+          date: "Vie, 19/6",
+          group: "Grupo B",
+          time: "0:00",
+          home: "Canada",
+          away: "Catar",
+        },
+        {
+          date: "Vie, 19/6",
+          group: "Grupo A",
+          time: "3:00",
+          home: "Mexico",
+          away: "Corea del Sur",
+        },
+        {
+          date: "Vie, 19/6",
+          group: "Grupo D",
+          time: "21:00",
+          home: "Estados Unidos",
+          away: "Australia",
+        },
+        {
+          date: "Sab, 20/6",
+          group: "Grupo C",
+          time: "0:00",
+          home: "Escocia",
+          away: "Marruecos",
+        },
+        {
+          date: "Sab, 20/6",
+          group: "Grupo C",
+          time: "2:30",
+          home: "Brasil",
+          away: "Haiti",
+        },
+        {
+          date: "Sab, 20/6",
+          group: "Grupo D",
+          time: "5:00",
+          home: "Turquia",
+          away: "Paraguay",
+        },
+        {
+          date: "Sab, 20/6",
+          group: "Grupo F",
+          time: "19:00",
+          home: "Paises Bajos",
+          away: "Suecia",
+        },
+        {
+          date: "Sab, 20/6",
+          group: "Grupo E",
+          time: "22:00",
+          home: "Alemania",
+          away: "Costa de Marfil",
+        },
+        {
+          date: "Dom, 21/6",
+          group: "Grupo E",
+          time: "2:00",
+          home: "Ecuador",
+          away: "Curazao",
+        },
+        {
+          date: "Dom, 21/6",
+          group: "Grupo F",
+          time: "6:00",
+          home: "Tunez",
+          away: "Japon",
+        },
+        {
+          date: "Dom, 21/6",
+          group: "Grupo H",
+          time: "18:00",
+          home: "Espana",
+          away: "Arabia Saudita",
+        },
+        {
+          date: "Dom, 21/6",
+          group: "Grupo G",
+          time: "21:00",
+          home: "Belgica",
+          away: "Iran",
+        },
+        {
+          date: "Lun, 22/6",
+          group: "Grupo H",
+          time: "0:00",
+          home: "Uruguay",
+          away: "Cabo Verde",
+        },
+        {
+          date: "Lun, 22/6",
+          group: "Grupo G",
+          time: "3:00",
+          home: "Nueva Zelanda",
+          away: "Egipto",
+        },
+        {
+          date: "Lun, 22/6",
+          group: "Grupo J",
+          time: "19:00",
+          home: "Argentina",
+          away: "Austria",
+        },
+        {
+          date: "Lun, 22/6",
+          group: "Grupo I",
+          time: "23:00",
+          home: "Francia",
+          away: "Irak",
+        },
+        {
+          date: "Mar, 23/6",
+          group: "Grupo I",
+          time: "2:00",
+          home: "Noruega",
+          away: "Senegal",
+        },
+        {
+          date: "Mar, 23/6",
+          group: "Grupo J",
+          time: "5:00",
+          home: "Jordania",
+          away: "Argelia",
+        },
+        {
+          date: "Mar, 23/6",
+          group: "Grupo K",
+          time: "19:00",
+          home: "Portugal",
+          away: "Uzbekistan",
+        },
+        {
+          date: "Mar, 23/6",
+          group: "Grupo L",
+          time: "22:00",
+          home: "Inglaterra",
+          away: "Ghana",
+        },
+        {
+          date: "Mie, 24/6",
+          group: "Grupo L",
+          time: "1:00",
+          home: "Panama",
+          away: "Croacia",
+        },
+        {
+          date: "Mie, 24/6",
+          group: "Grupo K",
+          time: "4:00",
+          home: "Colombia",
+          away: "RD Congo",
+        },
+        {
+          date: "Mie, 24/6",
+          group: "Grupo B",
+          time: "21:00",
+          home: "Suiza",
+          away: "Canada",
+        },
+        {
+          date: "Mie, 24/6",
+          group: "Grupo B",
+          time: "21:00",
+          home: "Bosnia y Herzegovina",
+          away: "Catar",
+        },
+        {
+          date: "Jue, 25/6",
+          group: "Grupo C",
+          time: "0:00",
+          home: "Marruecos",
+          away: "Haiti",
+        },
+        {
+          date: "Jue, 25/6",
+          group: "Grupo C",
+          time: "0:00",
+          home: "Escocia",
+          away: "Brasil",
+        },
+        {
+          date: "Jue, 25/6",
+          group: "Grupo A",
+          time: "3:00",
+          home: "Sudafrica",
+          away: "Corea del Sur",
+        },
+        {
+          date: "Jue, 25/6",
+          group: "Grupo A",
+          time: "3:00",
+          home: "Chequia",
+          away: "Mexico",
+        },
+        {
+          date: "Jue, 25/6",
+          group: "Grupo E",
+          time: "22:00",
+          home: "Curazao",
+          away: "Costa de Marfil",
+        },
+        {
+          date: "Jue, 25/6",
+          group: "Grupo E",
+          time: "22:00",
+          home: "Ecuador",
+          away: "Alemania",
+        },
+        {
+          date: "26/6",
+          group: "Grupo F",
+          time: "1:00",
+          home: "Tunez",
+          away: "Paises Bajos",
+        },
+        {
+          date: "26/6",
+          group: "Grupo F",
+          time: "1:00",
+          home: "Japon",
+          away: "Suecia",
+        },
+        {
+          date: "26/6",
+          group: "Grupo D",
+          time: "4:00",
+          home: "Turquia",
+          away: "Estados Unidos",
+        },
+        {
+          date: "26/6",
+          group: "Grupo D",
+          time: "4:00",
+          home: "Paraguay",
+          away: "Australia",
+        },
+        {
+          date: "26/6",
+          group: "Grupo I",
+          time: "21:00",
+          home: "Noruega",
+          away: "Francia",
+        },
+        {
+          date: "26/6",
+          group: "Grupo I",
+          time: "21:00",
+          home: "Senegal",
+          away: "Irak",
+        },
+        {
+          date: "27/6",
+          group: "Grupo H",
+          time: "2:00",
+          home: "Cabo Verde",
+          away: "Arabia Saudita",
+        },
+        {
+          date: "27/6",
+          group: "Grupo H",
+          time: "2:00",
+          home: "Uruguay",
+          away: "Espana",
+        },
+        {
+          date: "27/6",
+          group: "Grupo G",
+          time: "5:00",
+          home: "Nueva Zelanda",
+          away: "Belgica",
+        },
+        {
+          date: "27/6",
+          group: "Grupo G",
+          time: "5:00",
+          home: "Egipto",
+          away: "Iran",
+        },
+        {
+          date: "27/6",
+          group: "Grupo L",
+          time: "23:00",
+          home: "Panama",
+          away: "Inglaterra",
+        },
+        {
+          date: "27/6",
+          group: "Grupo L",
+          time: "23:00",
+          home: "Croacia",
+          away: "Ghana",
+        },
+        {
+          date: "28/6",
+          group: "Grupo K",
+          time: "1:30",
+          home: "Colombia",
+          away: "Portugal",
+        },
+        {
+          date: "28/6",
+          group: "Grupo K",
+          time: "1:30",
+          home: "RD Congo",
+          away: "Uzbekistan",
+        },
+        {
+          date: "28/6",
+          group: "Grupo J",
+          time: "4:00",
+          home: "Argelia",
+          away: "Austria",
+        },
+        {
+          date: "28/6",
+          group: "Grupo J",
+          time: "4:00",
+          home: "Jordania",
+          away: "Argentina",
+        },
+        {
+          date: "28/6",
+          group: "Eliminatoria de 32",
+          time: "21:00",
+          home: "Por definir",
+          away: "Por definir",
+        },
+        {
+          date: "29/6",
+          group: "Eliminatoria de 32",
+          time: "19:00",
+          home: "Por definir",
+          away: "Por definir",
+        },
+        {
+          date: "29/6",
+          group: "Eliminatoria de 32",
+          time: "22:30",
+          home: "Por definir",
+          away: "Por definir",
+        },
+        {
+          date: "30/6",
+          group: "Eliminatoria de 32",
+          time: "3:00",
+          home: "Por definir",
+          away: "Por definir",
+        },
+        {
+          date: "30/6",
+          group: "Eliminatoria de 32",
+          time: "19:00",
+          home: "Por definir",
+          away: "Por definir",
+        },
+        {
+          date: "30/6",
+          group: "Eliminatoria de 32",
+          time: "23:00",
+          home: "Por definir",
+          away: "Por definir",
+        },
+        {
+          date: "1/7",
+          group: "Eliminatoria de 32",
+          time: "3:00",
+          home: "Por definir",
+          away: "Por definir",
+        },
+        {
+          date: "1/7",
+          group: "Eliminatoria de 32",
+          time: "18:00",
+          home: "Por definir",
+          away: "Por definir",
+        },
+        {
+          date: "1/7",
+          group: "Eliminatoria de 32",
+          time: "22:00",
+          home: "Por definir",
+          away: "Por definir",
+        },
+        {
+          date: "2/7",
+          group: "Eliminatoria de 32",
+          time: "2:00",
+          home: "Por definir",
+          away: "Por definir",
+        },
+        {
+          date: "2/7",
+          group: "Eliminatoria de 32",
+          time: "21:00",
+          home: "Por definir",
+          away: "Por definir",
+        },
+        {
+          date: "3/7",
+          group: "Eliminatoria de 32",
+          time: "1:00",
+          home: "Por definir",
+          away: "Por definir",
+        },
+        {
+          date: "3/7",
+          group: "Eliminatoria de 32",
+          time: "5:00",
+          home: "Por definir",
+          away: "Por definir",
+        },
+        {
+          date: "3/7",
+          group: "Eliminatoria de 32",
+          time: "20:00",
+          home: "Por definir",
+          away: "Por definir",
+        },
+        {
+          date: "4/7",
+          group: "Eliminatoria de 32",
+          time: "0:00",
+          home: "Por definir",
+          away: "Por definir",
+        },
+        {
+          date: "4/7",
+          group: "Eliminatoria de 32",
+          time: "3:30",
+          home: "Por definir",
+          away: "Por definir",
+        },
+        {
+          date: "4/7",
+          group: "Octavos de final",
+          time: "19:00",
+          home: "Por definir",
+          away: "Por definir",
+        },
+        {
+          date: "4/7",
+          group: "Octavos de final",
+          time: "23:00",
+          home: "Por definir",
+          away: "Por definir",
+        },
+        {
+          date: "5/7",
+          group: "Octavos de final",
+          time: "22:00",
+          home: "Por definir",
+          away: "Por definir",
+        },
+        {
+          date: "6/7",
+          group: "Octavos de final",
+          time: "2:00",
+          home: "Por definir",
+          away: "Por definir",
+        },
+        {
+          date: "6/7",
+          group: "Octavos de final",
+          time: "21:00",
+          home: "Por definir",
+          away: "Por definir",
+        },
+        {
+          date: "7/7",
+          group: "Octavos de final",
+          time: "2:00",
+          home: "Por definir",
+          away: "Por definir",
+        },
+        {
+          date: "7/7",
+          group: "Octavos de final",
+          time: "18:00",
+          home: "Por definir",
+          away: "Por definir",
+        },
+        {
+          date: "7/7",
+          group: "Octavos de final",
+          time: "22:00",
+          home: "Por definir",
+          away: "Por definir",
+        },
+        {
+          date: "9/7",
+          group: "Cuartos de final",
+          time: "22:00",
+          home: "Por definir",
+          away: "Por definir",
+        },
+        {
+          date: "10/7",
+          group: "Cuartos de final",
+          time: "21:00",
+          home: "Por definir",
+          away: "Por definir",
+        },
+        {
+          date: "11/7",
+          group: "Cuartos de final",
+          time: "23:00",
+          home: "Por definir",
+          away: "Por definir",
+        },
+        {
+          date: "12/7",
+          group: "Cuartos de final",
+          time: "3:00",
+          home: "Por definir",
+          away: "Por definir",
+        },
+        {
+          date: "14/7",
+          group: "Semifinales",
+          time: "21:00",
+          home: "Por definir",
+          away: "Por definir",
+        },
+        {
+          date: "15/7",
+          group: "Semifinales",
+          time: "21:00",
+          home: "Por definir",
+          away: "Por definir",
+        },
+        {
+          date: "18/7",
+          group: "Eliminatoria por el tercer lugar",
+          time: "23:00",
+          home: "Por definir",
+          away: "Por definir",
+        },
+        {
+          date: "19/7",
+          group: "Final",
+          time: "21:00",
+          home: "Por definir",
+          away: "Por definir",
+        },
+      ];
+
+      const groupFilter = document.getElementById("group-filter");
+      const teamFilter = document.getElementById("team-filter");
+      const list = document.getElementById("calendar-list");
+      const summary = document.getElementById("calendar-summary");
+      const flags = {
+        Alemania: "Alemania_48x48.png",
+        "Arabia Saudita": "Arabia_Saudita_48x48.png",
+        Argelia: "Argelia_48x48.png",
+        Argentina: "Argentina_48x48.png",
+        Australia: "Australia_48x48.png",
+        Austria: "Austria_48x48.png",
+        Belgica: "Belgica_48x48.png",
+        "Bosnia y Herzegovina": "Bosnia_Herzegovina_48x48.png",
+        Brasil: "Brasil_48x48.png",
+        "Cabo Verde": "Cabo_Verde_48x48.png",
+        Canada: "Canada_48x48.png",
+        Catar: "Catar_48x48.png",
+        Chequia: "Chequia_48x48.png",
+        Colombia: "Colombia_48x48.png",
+        "Corea del Sur": "Corea_Sur_48x48.png",
+        "Costa de Marfil": "Costa_Marfil_48x48.png",
+        Croacia: "Croacia_48x48.png",
+        Curazao: "Curazao_48x48.png",
+        Ecuador: "Ecuador_48x48.png",
+        Egipto: "Egipto_48x48.png",
+        Escocia: "Escocia_48x48.png",
+        Espana: "España_48x48.png",
+        "Estados Unidos": "Estados_Unidos_48x48.png",
+        Francia: "Francia_48x48.png",
+        Ghana: "Ghana_48x48.png",
+        Haiti: "Haití_48x48.png",
+        Inglaterra: "Inglaterra_48x48.png",
+        Irak: "Irak_48x48.png",
+        Iran: "Iran_48x48.png",
+        Japon: "Japon_48x48.png",
+        Jordania: "Jordania_48x48.png",
+        Marruecos: "Marruecos_48x48.png",
+        Mexico: "Mexico_48x48.png",
+        Noruega: "Noruega_48x48.png",
+        "Nueva Zelanda": "Nueva_Zelanda_48x48.png",
+        "Paises Bajos": "Paises_Bajos_48x48.png",
+        Panama: "Panama_48x48.png",
+        Paraguay: "Paraguay_48x48.png",
+        Portugal: "Portugal_48x48.png",
+        "RD Congo": "RD_Congo_48x48.png",
+        Senegal: "Senegal_48x48.png",
+        Sudafrica: "Sudafrica_48x48.png",
+        Suecia: "Suecia_48x48.png",
+        Suiza: "Suiza_48x48.png",
+        Tunez: "Tunez_48x48.png",
+        Turquia: "Turquia_48x48.png",
+        Uruguay: "Uruguay_48x48.png",
+        Uzbekistan: "Uzbekistan_48x48.png",
+        "Por definir": "None_48x48.png",
+      };
+
+      function normalize(text) {
+        return text
+          .toLowerCase()
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "");
+      }
+
+      function getScore(match) {
+        if (match.homeGoals === undefined || match.awayGoals === undefined) {
+          return '<span class="match-status">Pendiente</span>';
+        }
+
+        return `<strong class="match-score">${match.homeGoals} - ${match.awayGoals}</strong>`;
+      }
+
+      function getTeam(team, side) {
+        const flag = flags[team];
+        const flagImage = flag
+          ? `<img class="match-flag" src="images/${flag}" alt="" />`
+          : "";
+
+        return `
+          <span class="match-team match-team-${side}">
+            ${side === "home" ? flagImage : ""}
+            <span>${team}</span>
+            ${side === "away" ? flagImage : ""}
+          </span>
+        `;
+      }
+
+      function render() {
+        const selectedGroup = groupFilter.value;
+        const search = normalize(teamFilter.value.trim());
+        const filteredMatches = matches.filter((match) => {
+          const sameGroup = !selectedGroup || match.group === selectedGroup;
+          const teams = normalize(`${match.home} ${match.away}`);
+          return sameGroup && (!search || teams.includes(search));
+        });
+
+        summary.textContent = `${filteredMatches.length} partidos encontrados`;
+        list.innerHTML = "";
+
+        if (filteredMatches.length === 0) {
+          list.innerHTML = "<p>No hay partidos con esos filtros.</p>";
+          return;
+        }
+
+        const groupedByDate = filteredMatches.reduce((dates, match) => {
+          if (!dates.has(match.date)) {
+            dates.set(match.date, []);
+          }
+
+          dates.get(match.date).push(match);
+          return dates;
+        }, new Map());
+
+        groupedByDate.forEach((dateMatches, date) => {
+          const section = document.createElement("section");
+          section.className = "calendar-day";
+          section.innerHTML = `<h2>${date}</h2>`;
+
+          dateMatches.forEach((match) => {
+            section.insertAdjacentHTML(
+              "beforeend",
+              `
+                <article class="match-card">
+                  <div class="match-meta">
+                    <span>${match.group}</span>
+                    <span>${match.time}</span>
+                  </div>
+                  <div class="match-teams">
+                    ${getTeam(match.home, "home")}
+                    ${getScore(match)}
+                    ${getTeam(match.away, "away")}
+                  </div>
+                </article>
+              `,
+            );
+          });
+
+          list.append(section);
+        });
+      }
+
+      [...new Set(matches.map((match) => match.group))].forEach((group) => {
+        const option = document.createElement("option");
+        option.value = group;
+        option.textContent = group;
+        groupFilter.append(option);
+      });
+
+      groupFilter.addEventListener("change", render);
+      teamFilter.addEventListener("input", render);
+
+      render();
+    </script>
+  </body>
+</html>

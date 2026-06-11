@@ -14,7 +14,175 @@
         <h1>Porras enviadas</h1>
       </header>
 
-      <p>Pr&oacute;ximamente veremos aqu&iacute; las porras de todos.</p>
+      <div id="porras-listado">Cargando porras...</div>
+
+      <script>
+        const API_URL =
+          "https://script.google.com/macros/s/AKfycbzRiUag7N6fGlRYsMFRbYGf5xq2up91gv4AqCA8AeggZXVlNtlTBT4mctQzMISwwKaosw/exec";
+        
+          const flags = {
+          alemania: "Alemania_48x48.png",
+          "arabia saudita": "Arabia_Saudita_48x48.png",
+          argelia: "Argelia_48x48.png",
+          argentina: "Argentina_48x48.png",
+          australia: "Australia_48x48.png",
+          austria: "Austria_48x48.png",
+          belgica: "Belgica_48x48.png",
+          "bosnia y herzegovina": "Bosnia_Herzegovina_48x48.png",
+          brasil: "Brasil_48x48.png",
+          "cabo verde": "Cabo_Verde_48x48.png",
+          canada: "Canada_48x48.png",
+          catar: "Catar_48x48.png",
+          chequia: "Chequia_48x48.png",
+          colombia: "Colombia_48x48.png",
+          "corea del sur": "Corea_Sur_48x48.png",
+          "costa de marfil": "Costa_Marfil_48x48.png",
+          croacia: "Croacia_48x48.png",
+          curazao: "Curazao_48x48.png",
+          ecuador: "Ecuador_48x48.png",
+          egipto: "Egipto_48x48.png",
+          escocia: "Escocia_48x48.png",
+          espana: "Espa%C3%B1a_48x48.png",
+          "estados unidos": "Estados_Unidos_48x48.png",
+          francia: "Francia_48x48.png",
+          ghana: "Ghana_48x48.png",
+          haiti: "Hait%C3%AD_48x48.png",
+          inglaterra: "Inglaterra_48x48.png",
+          irak: "Irak_48x48.png",
+          iran: "Iran_48x48.png",
+          japon: "Japon_48x48.png",
+          jordania: "Jordania_48x48.png",
+          marruecos: "Marruecos_48x48.png",
+          mexico: "Mexico_48x48.png",
+          noruega: "Noruega_48x48.png",
+          "nueva zelanda": "Nueva_Zelanda_48x48.png",
+          "paises bajos": "Paises_Bajos_48x48.png",
+          panama: "Panama_48x48.png",
+          paraguay: "Paraguay_48x48.png",
+          portugal: "Portugal_48x48.png",
+          "rd congo": "RD_Congo_48x48.png",
+          senegal: "Senegal_48x48.png",
+          sudafrica: "Sudafrica_48x48.png",
+          suecia: "Suecia_48x48.png",
+          suiza: "Suiza_48x48.png",
+          tunez: "Tunez_48x48.png",
+          turquia: "Turquia_48x48.png",
+          uruguay: "Uruguay_48x48.png",
+          uzbekistan: "Uzbekistan_48x48.png",
+        };
+
+        function normalize(text) {
+          return String(text || "")
+            .toLowerCase()
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .trim();
+        }
+
+        function escapeHtml(text) {
+          return String(text || "")
+            .replaceAll("&", "&amp;")
+            .replaceAll("<", "&lt;")
+            .replaceAll(">", "&gt;")
+            .replaceAll('"', "&quot;")
+            .replaceAll("'", "&#039;");
+        }
+
+        function getFlag(team) {
+          return flags[normalize(team)] || "None_48x48.png";
+        }
+
+        function renderPodiumFlag(team, position) {
+          const safeTeam = escapeHtml(team || "Por definir");
+
+          return `
+            <span class="podium-chip" title="${safeTeam}">
+              <span>${position}</span>
+              <img src="images/${getFlag(team)}" alt="" />
+            </span>
+          `;
+        }
+
+        function renderGroup(label, value) {
+          const teams = String(value || "")
+            .split("|")
+            .map((team) => team.trim())
+            .filter(Boolean);
+
+          return `
+            <div class="prediction-group">
+              <strong>${label}</strong>
+              <span>${teams.map(escapeHtml).join(" / ") || "Sin datos"}</span>
+            </div>
+          `;
+        }
+
+        fetch(API_URL)
+          .then((response) => response.json())
+          .then((data) => {
+            const contenedor = document.getElementById("porras-listado");
+
+            if (!data.length) {
+              contenedor.innerHTML =
+                "<p>Todav&iacute;a no hay porras enviadas.</p>";
+              return;
+            }
+
+            contenedor.innerHTML = data
+              .map(
+                (porra, index) => `
+                  <details class="porra-card">
+                    <summary class="porra-summary">
+                      <span class="porra-user">
+                        ${index + 1}. ${escapeHtml(porra["Correo"])}
+                      </span>
+                      <span class="podium-flags" aria-label="Top 1, Top 2 y Top 3">
+                        ${renderPodiumFlag(porra["Top 1"], "1")}
+                        ${renderPodiumFlag(porra["Top 2"], "2")}
+                        ${renderPodiumFlag(porra["Top 3"], "3")}
+                      </span>
+                      <span class="porra-arrow" aria-hidden="true">&#8964;</span>
+                    </summary>
+
+                    <div class="porra-details">
+                      <section>
+                        <h2>Fase de grupos</h2>
+                        <div class="prediction-grid">
+                          ${renderGroup("Grupo A", porra["Grupo A"])}
+                          ${renderGroup("Grupo B", porra["Grupo B"])}
+                          ${renderGroup("Grupo C", porra["Grupo C"])}
+                          ${renderGroup("Grupo D", porra["Grupo D"])}
+                          ${renderGroup("Grupo E", porra["Grupo E"])}
+                          ${renderGroup("Grupo F", porra["Grupo F"])}
+                          ${renderGroup("Grupo G", porra["Grupo G"])}
+                          ${renderGroup("Grupo H", porra["Grupo H"])}
+                          ${renderGroup("Grupo I", porra["Grupo I"])}
+                          ${renderGroup("Grupo J", porra["Grupo J"])}
+                          ${renderGroup("Grupo K", porra["Grupo K"])}
+                          ${renderGroup("Grupo L", porra["Grupo L"])}
+                        </div>
+                      </section>
+
+                      <section>
+                        <h2>Predicci&oacute;n final</h2>
+                        <div class="final-prediction">
+                          <p><strong>Top 1:</strong> ${escapeHtml(porra["Top 1"])}</p>
+                          <p><strong>Top 2:</strong> ${escapeHtml(porra["Top 2"])}</p>
+                          <p><strong>Top 3:</strong> ${escapeHtml(porra["Top 3"])}</p>
+                          <p><strong>M&aacute;ximo goleador:</strong> ${escapeHtml(porra["Maximo goleador"])}</p>
+                        </div>
+                      </section>
+                    </div>
+                  </details>
+                `,
+              )
+              .join("");
+          })
+          .catch(() => {
+            document.getElementById("porras-listado").innerHTML =
+              "<p>No se han podido cargar las porras.</p>";
+          });
+      </script>
     </main>
   </body>
 </html>
