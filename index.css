@@ -96,10 +96,13 @@ h1 {
   padding: 10px 14px;
   border: 1px solid #dbe3ea;
   border-radius: 8px;
+  background: #ffffff;
   color: #10212f;
+  font: inherit;
   font-weight: 800;
   text-align: left;
   text-decoration: none;
+  cursor: pointer;
   transition:
     border-color 160ms ease,
     transform 160ms ease,
@@ -110,6 +113,10 @@ h1 {
   transform: translateY(-2px);
   border-color: #0b7a53;
   box-shadow: 0 10px 24px rgba(11, 122, 83, 0.12);
+}
+
+.rules-card {
+  grid-column: 2;
 }
 
 .action-icon {
@@ -129,6 +136,56 @@ h1 {
   fill: currentColor;
 }
 
+.rules-modal {
+  width: min(92vw, 480px);
+  padding: 0;
+  border: 0;
+  border-radius: 12px;
+  color: #10212f;
+  background: #ffffff;
+  box-shadow: 0 24px 80px rgba(16, 33, 47, 0.22);
+}
+
+.rules-modal::backdrop {
+  background: rgba(16, 33, 47, 0.42);
+}
+
+.rules-modal-content {
+  position: relative;
+  padding: 26px;
+  text-align: left;
+}
+
+.rules-modal h2 {
+  margin: 0 0 16px;
+  font-size: 1.5rem;
+  text-transform: uppercase;
+}
+
+.rules-modal ul {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding-left: 20px;
+  color: #526170;
+  font-weight: 700;
+}
+
+.rules-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 34px;
+  height: 34px;
+  border: 0;
+  border-radius: 50%;
+  color: #0b7a53;
+  background: #e9f5ef;
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+}
+
 @media (max-width: 520px) {
   .hero {
     padding: 44px 18px;
@@ -141,5 +198,9 @@ h1 {
 
   .home-actions {
     grid-template-columns: 1fr;
+  }
+
+  .rules-card {
+    grid-column: auto;
   }
 }

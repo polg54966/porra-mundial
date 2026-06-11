@@ -18,9 +18,9 @@
 
       <script>
         const API_URL =
-          "https://script.google.com/macros/s/AKfycbzRiUag7N6fGlRYsMFRbYGf5xq2up91gv4AqCA8AeggZXVlNtlTBT4mctQzMISwwKaosw/exec";
-        
-          const flags = {
+          "https://script.google.com/macros/s/AKfycbwLr-D8lN3eREdhIl6jHzzuu4fVyVhLfeRdNEqJs00sGx680035VCJA4J9uTTLEEBeQ/exec";
+
+        const flags = {
           alemania: "Alemania_48x48.png",
           "arabia saudita": "Arabia_Saudita_48x48.png",
           argelia: "Argelia_48x48.png",
@@ -134,14 +134,16 @@
                   <details class="porra-card">
                     <summary class="porra-summary">
                       <span class="porra-user">
-                        ${index + 1}. ${escapeHtml(porra["Correo"])}
+                        ${escapeHtml(porra["Correo"])}
                       </span>
                       <span class="podium-flags" aria-label="Top 1, Top 2 y Top 3">
                         ${renderPodiumFlag(porra["Top 1"], "1")}
                         ${renderPodiumFlag(porra["Top 2"], "2")}
                         ${renderPodiumFlag(porra["Top 3"], "3")}
                       </span>
-                      <span class="porra-arrow" aria-hidden="true">&#8964;</span>
+                      <span class="porra-arrow" aria-hidden="true">
+                        <img src="images/flecha-abajo.png" alt="" />
+                      </span>
                     </summary>
 
                     <div class="porra-details">
@@ -177,6 +179,20 @@
                 `,
               )
               .join("");
+
+            contenedor.querySelectorAll(".porra-card").forEach((card) => {
+              card.addEventListener("toggle", () => {
+                if (!card.open) {
+                  return;
+                }
+
+                contenedor.querySelectorAll(".porra-card").forEach((otherCard) => {
+                  if (otherCard !== card) {
+                    otherCard.open = false;
+                  }
+                });
+              });
+            });
           })
           .catch(() => {
             document.getElementById("porras-listado").innerHTML =

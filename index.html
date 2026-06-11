@@ -14,15 +14,15 @@
         <a class="button" href="porra.html">Hacer porra</a>
 
         <div class="home-actions" aria-label="Accesos de la porra">
-          <a class="action-card" href="clasificacion.html">
+          <a class="action-card" href="calendario.html">
             <span class="action-icon" aria-hidden="true">
               <svg viewBox="0 0 24 24" role="img">
                 <path
-                  d="M8 4h8v3h3v2a5 5 0 0 1-4.5 5A4.5 4.5 0 0 1 13 15.7V18h3v2H8v-2h3v-2.3A4.5 4.5 0 0 1 9.5 14 5 5 0 0 1 5 9V7h3V4Zm0 5H7a3 3 0 0 0 1.6 2.7A6.5 6.5 0 0 1 8 9Zm8 0c0 .95-.2 1.85-.6 2.7A3 3 0 0 0 17 9h-1Z"
+                  d="M4 5h16v14H4V5Zm2 2v3h12V7H6Zm0 5v5h3v-5H6Zm5 0v5h7v-5h-7Z"
                 />
               </svg>
             </span>
-            <span>Clasificatoria</span>
+            <span>Calendario</span>
           </a>
 
           <a class="action-card" href="porras.html">
@@ -36,18 +36,72 @@
             <span>Ver porras</span>
           </a>
 
-          <a class="action-card" href="calendario.html">
+          <a class="action-card" href="clasificacion.html">
             <span class="action-icon" aria-hidden="true">
               <svg viewBox="0 0 24 24" role="img">
                 <path
-                  d="M4 5h16v14H4V5Zm2 2v3h12V7H6Zm0 5v5h3v-5H6Zm5 0v5h7v-5h-7Z"
+                  d="M8 4h8v3h3v2a5 5 0 0 1-4.5 5A4.5 4.5 0 0 1 13 15.7V18h3v2H8v-2h3v-2.3A4.5 4.5 0 0 1 9.5 14 5 5 0 0 1 5 9V7h3V4Zm0 5H7a3 3 0 0 0 1.6 2.7A6.5 6.5 0 0 1 8 9Zm8 0c0 .95-.2 1.85-.6 2.7A3 3 0 0 0 17 9h-1Z"
                 />
               </svg>
             </span>
-            <span>Calendario</span>
+            <span>Clasificatoria</span>
           </a>
+
+          <button class="action-card rules-card" type="button" id="open-rules">
+            <span class="action-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" role="img">
+                <path
+                  d="M7 3h8l4 4v14H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Zm7 1.5V8h3.5L14 4.5ZM8 11h8V9H8v2Zm0 4h8v-2H8v2Zm0 4h5v-2H8v2Z"
+                />
+              </svg>
+            </span>
+            <span>Normas</span>
+          </button>
         </div>
       </section>
     </main>
+
+    <dialog class="rules-modal" id="rules-modal" aria-labelledby="rules-title">
+      <div class="rules-modal-content">
+        <button
+          class="rules-close"
+          type="button"
+          id="close-rules"
+          aria-label="Cerrar normas"
+        >
+          X
+        </button>
+        <h2 id="rules-title">Normas</h2>
+        <ul>
+          <li>Marca exactamente 2 equipos por grupo.</li>
+          <li>Elige tu Top 1, Top 2 y Top 3 del Mundial.</li>
+          <li>Indica tambi&eacute;n tu m&aacute;ximo goleador.</li>
+          <li>
+            La clasificaci&oacute;n se actualizar&aacute; con los puntos de cada
+            acierto.
+          </li>
+        </ul>
+      </div>
+    </dialog>
+
+    <script>
+      const openRules = document.getElementById("open-rules");
+      const closeRules = document.getElementById("close-rules");
+      const rulesModal = document.getElementById("rules-modal");
+
+      openRules.addEventListener("click", () => {
+        rulesModal.showModal();
+      });
+
+      closeRules.addEventListener("click", () => {
+        rulesModal.close();
+      });
+
+      rulesModal.addEventListener("click", (event) => {
+        if (event.target === rulesModal) {
+          rulesModal.close();
+        }
+      });
+    </script>
   </body>
 </html>

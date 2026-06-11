@@ -240,11 +240,14 @@ select {
   height: 28px;
   place-items: center;
   border-radius: 50%;
-  color: #0b7a53;
   background: #e9f5ef;
-  font-size: 1.2rem;
-  font-weight: 800;
   transition: transform 160ms ease;
+}
+
+.porra-arrow img {
+  width: 14px;
+  height: 14px;
+  object-fit: contain;
 }
 
 .porra-card[open] .porra-arrow {
